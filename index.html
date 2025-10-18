@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人机交互实验课作业4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Microsoft YaHei', 'SimSun', Arial, sans-serif;
+            line-height: 1.8;
+            background: linear-gradient(135deg, #4c66e2 0%, #68309e 100%); /* Adjusted color for aesthetics */
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #4c66e2 0%, #68309e 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+            page-break-inside: avoid;
+        }
+
+        .section h2 {
+            color: #4c66e2;
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 4px solid #4c66e2;
+            font-weight: 700;
+        }
+
+        .section h3 {
+            color: #68309e;
+            font-size: 1.6em;
+            margin: 30px 0 18px 0;
+            padding-left: 15px;
+            border-left: 6px solid #68309e;
+            font-weight: 600;
+        }
+
+        .interview-card {
+            background: #f8f9fa;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 16px;
+            border-left: 8px solid #4c66e2;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .interview-header {
+            background: linear-gradient(135deg, #4c66e2 0%, #68309e 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .qa-item {
+            margin: 15px 0;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #4c66e2;
+        }
+
+        .q {
+            color: #4c66e2;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+
+        .a strong {
+            color: #333;
+            font-weight: normal;
+        }
+        .a em {
+            color: #5bc0de;
+            font-style: normal;
+        }
+
+        .a strong {
+            color: #333;
+            font-style: normal;
+        }
+        .a em {
+            color: #333;
+            font-style: normal;
+        }
+
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .data-table th {
+            background: linear-gradient(135deg, #4c66e2 0%, #68309e 100%);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.05em;
+        }
+
+        .data-table td {
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            text-align: center;
+        }
+
+        .data-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .chart-container {
+            background: #fdfdff;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .chart-title {
+            color: #4c66e2;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px dashed #e0e0e0;
+        }
+
+        .bar-item {
+            margin: 15px 0;
+        }
+
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 1em;
+            font-weight: 500;
+        }
+
+        .bar-bg {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4c66e2 0%, #a24ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.95em;
+            transition: width 0.5s ease-out;
+        }
+
+        .analysis-box {
+            background: linear-gradient(135deg, #fefce8 0%, #fff9c4 100%); /* Light yellow/cream background */
+            padding: 30px;
+            border-radius: 16px;
+            margin: 25px 0;
+            border: 1px solid #ffcc00;
+        }
+
+        .analysis-box h3 {
+            color: #d9534f;
+            border-left-color: #d9534f;
+            margin-top: 0;
+        }
+
+        .finding {
+            background: white;
+            padding: 18px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 5px solid #d9534f;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .response-num {
+            color: #4c66e2;
+            font-weight: bold;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            border-radius: 0 0 24px 24px;
+        }
+
+        .project-intro {
+            line-height: 2;
+            text-indent: 2em;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>人机交互实验课作业 4</h1>
+            <p>校园电动车充电桩预约与共享平台</p>
+            <p style="margin-top: 10px; font-size: 0.95em;">姚佳悦 202218130024、罗浩铭 202200130083、张政航 202200130134、徐雪钰 202200130284</p>
+        </header>
+
+        <div class="content">
+            <div class="section">
+                <h2>一、项目背景与研究方法</h2>
+                <div class="project-intro">
+                    <h3 style="margin-top: 0; border-left-color: #4c66e2;">项目简介</h3>
+                    <p style="line-height: 2; text-indent: 2em;">
+                        该项目致力于打造一款面向全校师生的“校园电动车充电桩预约与共享平台”。针对目前校园充电设施“有桩无位、有位无电、信息不透明、使用效率低”等核心痛点，平台集成四大功能模块：
+                    </p>
+                    <ul style="list-style-type: disc; padding-left: 40px;">
+                        <li>实时桩位感知与地图导航，帮助用户快速找到可用充电桩；</li>
+                        <li>15 分钟提前预约与信用保位机制，避免排队与无效跑动；</li>
+                        <li>智能共享模式，鼓励宿舍区、教学楼等私有插座车主共享闲置资源，平台提供电费结算与保险保障；</li>
+                        <li>信用分体系与违规惩戒，对恶意占桩、拔插头等行为进行扣分与预约限制，营造文明充电环境。</li>
+                    </ul>
+                    <p style="line-height: 2; text-indent: 2em;">
+                        通过物联网插座、云端算法和小程序端的无缝协同，该项目期望实现“充电不求人、预约不等待、共享不麻烦”，提升校园充电资源利用率，减少用户平均寻桩时间，为绿色校园出行提供可靠、高效、公平的能源基础设施。
+                    </p>
+                    <h3 style="margin: 25px 0 15px 0; border-left-color: #4c66e2;">研究方法</h3>
+                    <p style="line-height: 2; text-indent: 2em;">
+                        本研究采用访谈与调查问卷相结合的研究方法，通过半结构式访谈深入了解用户充电行为和痛点，通过问卷调查获取量化数据。研究共访谈4名用户，发放问卷13份，全部有效。
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>二、半结构式访谈结果</h2>
+
+                <div class="interview-card">
+                    <div class="interview-header">访谈对象1 | 本科生 | 电动自行车 (频繁充电用户)</div>
+
+                    <h3>主题 A：充电行为与流程</h3>
+                    <div class="qa-section">
+                        <div class="qa-item">
+                            <div class="q">Q1. 最近一次给电动车充电的完整流程？</div>
+                            <div class="a">
+                                <p style="line-height: 2; text-indent: 2em;">
+                                晚上 9 点从宿舍出发，到楼下充电桩充电，发现全满。
+                                又骑到院楼找桩，发现一个空位，但插座接触不良。换了 2 个插座才充上，这期间花了 40 多分钟。
+                                充了 2 小时后设闹钟回去取车。
+                                <br><em>→ 当时怎么判断接触不良的？换插座时有其他人在等吗？</em>
+
+                                <br><strong style="display: block; text-indent: 2em;">
+                                    看灯一直不亮，要摇晃插头。旁边也有人在找。
+                                </strong>
+                            </div>
+                        </div>
+                        <div class="qa-item">
+                            <div class="q">Q3. 如果到达后发现“桩在位空”，你会怎么做？</div>
+                            <div class="a">
+                                <p style="line-height: 2; text-indent: 2em;">
+                                会再找 2-3 个地方（比如教学楼的桩），都没有就第二天早起充。
+                                <br><em>→ 找 2-3 个地方一般会花费多久？你通常会等吗？</em>
+                                <br><strong style="display: block; text-indent: 2em;">15-20 分钟，感觉不如直接回。基本不会等，因为不知道要等多久。</strong>
+                            </div>
+                        </div>
+                        <div class="qa-item">
+                            <div class="q">Q5. 充电时担心被拔插头吗？</div>
+                            <div class="a">
+                                <p style="line-height: 2; text-indent: 2em;">
+                                很担心。之前被拔过一次只充了不到 1 小时。现在设闹钟提醒自己早点回来取车，即使没充满也拔掉。
+                                <br><em>→ 被拔后发现没充满，您采取了什么行动？</em>
+                                <br><strong style="display: block; text-indent: 2em;"> 什么也没做，只能认倒霉。当时很气愤，但没看到是谁拔的。</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>主题 B：信息获取与决策</h3>
+                    <div class="qa-section">
+                        <div class="qa-item">
+                            <div class="q">Q1. 你现在如何知道“哪里有空桩”？</div>
+                            <div class="a">
+                                <p style="line-height: 2; text-indent: 2em;">
+                                主要现场看。
+                                <br><em>→ 信息及时吗？有没有信息过期的时候？</em>
+                                <br><strong style="display: block; text-indent: 2em;"> 基本只能当参考，真正靠谱的还是自己跑一趟。</strong>
+                            </div>
+                        </div>
+                        <div class="qa-item">
+                            <div class="q">Q4. 愿意为“预约保留 15 分钟”预付多少？</div>
+                            <div class="a">
+                                <p style="line-height: 2; text-indent: 2em;">
+                                0.5 元可接受，1 元有点贵。但必须有信用分机制，防止恶意预约。
+                                <br><em>→ 如果预约成功，但您在 15 分钟内没赶到，这 0.5 元/1 元该如何处理？</em>
+                                <br><strong style="display: block; text-indent: 2em;">如果我没赶到，这笔钱就应该被平台扣除，这是我自己的责任。</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>主题 C：情绪与信用</h3>
+                    <div class="qa-section">
+                        <div class="qa-item">
+                            <div class="q">Q1. 用 3 个形容词形容你找不到充电桩时的情绪。</div>
+                            <div class="a">
+                                <p style="line-height: 2; text-indent: 2em;">
+                                主要是烦躁、无奈、焦虑。烦躁是白跑，无奈是资源少，焦虑是担心没电耽误第二天上课。
+                            </div>
+                        </div>
+                        <div class="qa-item">
+                            <div class="q">Q4. 你愿意绑定校园卡实名使用充电桩吗？</div>
+                            <div class="a">
+                                <p style="line-height: 2; text-indent: 2em;">
+                                愿意。虽然涉及隐私，但如果能换来一个规范、公平的充电环境，可以接受。
+                                <br><em>→ 实名制后，您最担心什么？</em>
+                                <br><strong style="display: block; text-indent: 2em;"> 担心我的充电记录被滥用，但更怕的是规则执行不到位，实名了还是有人违规。</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interview-card">
+                    <div class="interview-header">访谈对象2 | 研究生 | 电动自行车 (时间宝贵用户)</div>
+
+                    <h3>主题 A：充电行为与流程</h3>
+                    <div class="qa-section">
+                        <div class="qa-item">
+                            <div class="q">Q1. 最近一次给电动车充电的完整流程？</div>
+                            <div class="a">
+                                <p style="line-height: 2; text-indent: 2em;">
+                                中午 12 点从实验室去图书馆充电桩。等了 10 分钟才有人取车充上。因为下午 2 点开组会，只充了 1 小时就取走了，没充满。
+                                <br><em>→ 您在等待的这 10 分钟里，最大的感受是什么？</em>
+                                <br><strong style="display: block; text-indent: 2em;">烦躁和浪费时间。</strong>
+                            </div>
+                        </div>
+                        <div class="qa-item">
+                            <div class="q">Q2. 你通常什么时间段去充电？</div>
+                            <div class="a">
+                                <p style="line-height: 2; text-indent: 2em;">
+                                每 5 天充一次，通常是中午 11-13 点或晚上 7-9 点。中午人相对少，且能利用吃饭时间。
+                                <br><em>→ 您是否会特意避开某个时间段？</em>
+                                <br><strong style="display: block; text-indent: 2em;"> 晚上 9 点以后会避开，因为太晚人多，而且充很久影响休息。</strong>
+                            </div>
+                        </div>
+                        <div class="qa-item">
+                            <div class="q">Q4. 插座故障经历？</div>
+                            <div class="a">
+                                <p style="line-height: 2; text-indent: 2em;">
+                                遇到过两次，一次插座松了，一次直接没电。浪费了本来就不多的时间很无奈，希望有报修功能。
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>主题 B：信息获取与决策</h3>
+                    <div class="qa-section">
+                        <div class="qa-item">
+                            <div class="q">Q4. 愿意为“预约保留 15 分钟”预付多少？</div>
+                            <div class="a">
+                                <p style="line-height: 2; text-indent: 2em;">
+                                1 元可接受，时间更宝贵，确定性价值更高。
+                                <br><em>→ 如果预约费是 2 元，但能保证 30 分钟保留时间，您会考虑吗？</em>
+                                <br><strong style="display: block; text-indent: 2em;"> 如果能保证长时间，2 元也可以接受。但 30 分钟保留太久，有点占用公共资源。</strong>
+                            </div>
+                        </div>
+                        <div class="qa-item">
+                            <div class="q">Q5. 对“共享私桩”模式怎么看？</div>
+                            <div class="a">
+                                <p style="line-height: 2; text-indent: 2em;">
+                                概念上可行，但非常担心安全问题。私人插座的电线和防火措施可能不合规。
+                                <br><em>→ 如果平台提供安全认证和保险保障，您的信任度会提高吗？</em>
+                                <br><strong style="display: block; text-indent: 2em;"> 会提高很多，尤其是平台要负责设备安全，我才敢用。</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>主题 C：情绪与信用</h3>
+                    <div class="qa-section">
+                        <div class="qa-item">
+                            <div class="q">Q3. 如果系统给“拔别人插头”的用户扣分，你觉得合理吗？</div>
+                            <div class="a">
+                                <p style="line-height: 2; text-indent: 2em;">
+                                非常合理，应该扣重一点。这种行为是破坏公共秩序。
+                                <br><em>→ 您觉得扣到什么程度会起到震慑作用？</em>
+                                <br><strong style="display: block; text-indent: 2em;"> 如果发现一次，就应该限制他一个月不能使用预约功能。</strong>
+                            </div>
+                        </div>
+                        <div class="qa-item">
+                            <div class="q">Q5. 假如出现“信用分低于 80 无法预约”规则，你会如何改变自己的行为？</div>
+                            <div class="a">
+                                <p style="line-height: 2; text-indent: 2em;">
+                                我会非常小心地遵守规则，比如保证 15 分钟内到达，并准时取车。
+                                <br><em>→ 您认为这条规则的边界应该在哪里？</em>
+                                <br><strong style="display: block; text-indent: 2em;"> 可以对不常犯错的用户设立申诉通道。但如果是多次恶意违规，就应该严格执行。</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interview-card">
+                    <div class="interview-header">访谈对象3 | 本科生 | 电动摩托车 </div>
+
+                    <h3>主题 A：充电行为与流程</h3>
+                    <div class="qa-section">
+                        <div class="qa-item">
+                            <div class="q">Q2. 你通常什么时间段去充电？</div>
+                            <div class="a">
+                                <p style="line-height: 2; text-indent: 2em;">
+                                3-4 天充一次。喜欢早上 7-9 点去，人少。虽然要早起，但其他时间根本找不到位置。
+                                <br><em>→ 您一次充电需要多久？这么长时间离开您会担心什么？</em>
+                                <br><strong style="display: block; text-indent: 2em;"> 要充 4-5 小时。很担心被拔，所以希望能有充电异常的实时提醒。</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>主题 B：信息获取与决策</h3>
+                    <div class="qa-section">
+                        <div class="qa-item">
+                            <div class="q">Q1. 你现在如何知道“哪里有空桩”？</div>
+                            <div class="a">
+                                <p style="line-height: 2; text-indent: 2em;">
+                                查看小程序。知道哪个时间段、哪个区域人少。
+                            </div>
+                        </div>
+                        <div class="qa-item">
+                            <div class="q">Q3. 如果系统能实时显示“桩位+电量+是否被预约”，你会怎么用？</div>
+                            <div class="a">
+                                <p style="line-height: 2; text-indent: 2em;">
+                                绝对会在早上用预约功能。如果能预约就不用专门早起了，可以安心地晚点去。
+                            </div>
+                        </div>
+                        <div class="qa-item">
+                            <div class="q">Q5. 对“共享私桩”模式怎么看？</div>
+                            <div class="a">
+                                <p style="line-height: 2; text-indent: 2em;">
+                                如果是宿舍楼下的插座，我觉得可以接受。
+                                <br><em>→ 为什么您对宿舍楼下的私桩接受度更高？</em>
+                                <br><strong style="display: block; text-indent: 2em;"> 因为宿舍区域有监控，环境更规范一些。</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>主题 C：情绪与信用</h3>
+                    <div class="qa-section">
+                        <div class="qa-item">
+                            <div class="q">Q2. 有没有因为“被拔插头”而与人争执？</div>
+                            <div class="a">
+                                <p style="line-height: 2; text-indent: 2em;">
+                                没有争执，但有一次我现场抓包，看到有人直接拔别人的插头插到自己车上。我当时只是瞪了他一眼，他装作没看见。
+                                <br><em>→ 您当时为什么没有直接阻止或采取行动？</em>
+                                <br><strong style="display: block; text-indent: 2em;"> 觉得多一事不如少一事，而且没有证据，怕反而引起冲突。</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interview-card">
+                    <div class="interview-header">访谈对象4 | 本科生 | 电动自行车</div>
+
+                    <h3>主题 A：充电行为与流程</h3>
+                    <div class="qa-section">
+                        <div class="qa-item">
+                            <div class="q">Q1. 最近一次给电动车充电的完整流程？</div>
+                            <div class="a">
+                                 <p style="line-height: 2; text-indent: 2em;">
+                                经常在几个地方来回跑（宿舍区、教学楼和院楼），充了半小时才充上，还遇到了一个充电很慢的插座。
+                                <br><em>→ 您如何判断它是“充电很慢”的插座？</em>
+                                <br><strong style="display: block; text-indent: 2em;">看充电器上的灯，感觉充满电的时间比平时要久 1 小时以上。</strong>
+                            </div>
+                        </div>
+                        <div class="qa-item">
+                            <div class="q">Q5. 充电时担心被拔插头吗？</div>
+                            <div class="a">
+                                 <p style="line-height: 2; text-indent: 2em;">
+                                被拔过两次，有一次只充了半小时。在现场等过一次，看到有人直接拔别人的插头很气愤。
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>主题 B：信息获取与决策</h3>
+                    <div class="qa-section">
+                        <div class="qa-item">
+                            <div class="q">Q3. 如果系统能实时显示“桩位+电量+是否被预约”，你会怎么用？</div>
+                            <div class="a">
+                                 <p style="line-height: 2; text-indent: 2em;">
+                                最需要实时空桩位置和插座状态（如故障、功率）。避免遇到坏的插座。
+                            </div>
+                        </div>
+                        <div class="qa-item">
+                            <div class="q">Q4. 愿意为“预约保留 15 分钟”预付多少？</div>
+                            <div class="a">
+                                 <p style="line-height: 2; text-indent: 2em;">
+                                0.5 元是比较理想的价格。
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>主题 C：情绪与信用</h3>
+                    <div class="qa-section">
+                        <div class="qa-item">
+                            <div class="q">Q5. 假如出现“信用分低于 80 无法预约”规则，你会如何改变自己的行为？</div>
+                            <div class="a">
+                                 <p style="line-height: 2; text-indent: 2em;">
+                                强烈支持！ 建议信用分低的用户不仅不能预约，连正常使用也要限制次数。
+                                <br><em>→ 您认为限制次数的具体惩罚措施可以是什么？</em>
+                                <br><strong style="display: block; text-indent: 2em;"> 比如一周只能使用 2 次公共充电桩，直到信用分恢复。</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>三、调查问卷结果 </h2>
+
+                <h3>3.1 用户基本信息 (Q1, Q2, Q13)</h3>
+                <div class="chart-container">
+                    <div class="chart-title">Q1. 你的身份？</div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>本科生</span><span>8人 (62%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 62%;">62%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>研究生</span><span>4人 (31%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 31%;">31%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>教职工</span><span>1人 (7%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 7%;">7%</div></div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">Q2. 你使用的电动车类型？</div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>电动自行车</span><span>12人 (92%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 92%;">92%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>电动摩托车</span><span>1人 (8%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 8%;">8%</div></div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">Q13. 性别分布</div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>男</span><span>8人 (62%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 62%;">62%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>女</span><span>5人 (38%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 38%;">38%</div></div>
+                    </div>
+                </div>
+
+                <h3>3.2 充电行为数据 (Q3, Q4, Q14)</h3>
+                <div class="chart-container">
+                    <div class="chart-title">Q3. 平均每周充电次数？</div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>&lt;2次</span><span>9人 (69%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 69%;">69%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>2–4次</span><span>4人 (31%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 31%;">31%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>5–7次</span><span>0人 (0%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 0%;">0%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>&gt;7次</span><span>0人 (0%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 0%;">0%</div></div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">Q4. 你通常什么时间段充电？ (多选)</div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>7–9 点 (晨间)</span><span>4人次 (31%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 31%;">31%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>11–13 点 (午休)</span><span>5人次 (38%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 38%;">38%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>17–19 点 (下课/晚饭)</span><span>6人次 (46%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 46%;">46%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>21–23 点 (晚高峰/夜间)</span><span>10人次 (77%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 77%;">77%</div></div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">Q14. 你平均每月充电花费？</div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>&lt;10 元</span><span>12人 (92%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 92%;">92%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>10–30 元</span><span>1人 (8%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 8%;">8%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>30–50 元</span><span>0人 (0%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 0%;">0%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>&gt;50 元</span><span>0人 (0%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 0%;">0%</div></div>
+                    </div>
+                </div>
+
+                <h3>3.3 痛点与需求分析 (Q5, Q6, Q7, Q8, Q9, Q11)</h3>
+                <div class="chart-container">
+                    <div class="chart-title">Q5. 过去一月，你白跑一趟（无空桩或桩坏）的次数？</div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>0次</span><span>2人 (15%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 15%;">15%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>1–2次</span><span>5人 (38%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 38%;">38%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>3–5次</span><span>5人 (38%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 38%;">38%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>&gt;5次</span><span>1人 (8%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 8%;">8%</div></div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">Q7. 你现在如何获知空桩信息？ (最多选 2 项)</div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>现场看</span><span>10人次 (77%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 77%;">77%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>同学微信群</span><span>2人次 (15%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 46%;">46%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>校园论坛</span><span>2人次 (15%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 15%;">15%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>无渠道 (纯靠运气)</span><span>5人次 (38%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 38%;">38%</div></div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">Q8. 如果小程序显示“实时空桩+预约”，你觉得对你帮助大吗？</div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>非常大</span><span>11人 (85%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 85%;">85%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>较大</span><span>2人 (15%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 15%;">15%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>一般/没帮助</span><span>0人 (0%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 0%;">0%</div></div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">Q9. 你愿意为“预约保留 15 分钟”预付多少？</div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>0 元</span><span>2人 (15%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 15%;">15%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>0.5 元</span><span>7人 (54%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 54%;">54%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>1 元</span><span>4人 (31%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 31%;">31%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>>1 元</span><span>0人 (0%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 0%;">0%</div></div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">Q11. 你是否支持“拔别人插头扣信用分”规则？</div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>支持</span><span>12人 (92%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 92%;">92%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>视情况而定</span><span>1人 (8%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 8%;">8%</div></div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label"><span>不支持</span><span>0人 (0%)</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 0%;">0%</div></div>
+                    </div>
+                </div>
+
+                <h3>3.4 信任度与意愿 (Q6, Q10, Q12)</h3>
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>问卷问题</th>
+                                <th>选项</th>
+                                <th>人数 (N)</th>
+                                <th>比例</th>
+                                <th>关键发现</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="5">Q6. 对“当前充电桩数量”满意度</td>
+                                <td>1 (非常不足)</td>
+                                <td>2</td>
+                                <td>15%</td>
+                                <td rowspan="5">用户对桩位数量态度一般，无用户认为足够。</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>3</td>
+                                <td>23%</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>6</td>
+                                <td>46%</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>2</td>
+                                <td>15%</td>
+                            </tr>
+                            <tr>
+                                <td>5 (完全够用)</td>
+                                <td>0</td>
+                                <td>0%</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="5">Q10. 对“共享私桩”模式信任度</td>
+                                <td>1-2 (不信任)</td>
+                                <td>6</td>
+                                <td>46%</td>
+                                <td rowspan="5">信任度偏低（1-2分占46%），平台需解决安全顾虑才能推广。</td>
+                            </tr>
+                            <tr>
+                                <td>3 (一般)</td>
+                                <td>4</td>
+                                <td>31%</td>
+                            </tr>
+                            <tr>
+                                <td>4-5 (信任)</td>
+                                <td>3</td>
+                                <td>23%</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="3">Q12. 愿意实名绑定校园卡？</td>
+                                <td>愿意</td>
+                                <td>10</td>
+                                <td>77%</td>
+                                <td rowspan="3">多数用户支持实名制，以换取更规范的使用环境。</td>
+                            </tr>
+                            <tr>
+                                <td>视隐私条款而定</td>
+                                <td>2</td>
+                                <td>15%</td>
+                            </tr>
+                            <tr>
+                                <td>不愿意</td>
+                                <td>1</td>
+                                <td>8%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 style="margin-top: 30px; border-left-color: #d9534f;">Q15. 痛苦经历总结 (开放题)</h3>
+                <div class="finding" style="border-left-color: #68309e;">
+                    <span class="response-num">关键词：</span> 白跑 (5次), 排队 (4次), 被拔 (3次), 插座松动/无电 (3次), 着急 (2次)。
+                    <p style="margin-top: 10px; font-style: italic;">典型回答摘录：</p>
+                    <ul style="list-style-type: square; padding-left: 30px;">
+                        <li>“绕了三栋楼才找到空位，发现插头是坏的，又得重新找。”</li>
+                        <li>“充满自动断电了，但被人拔走插到另一辆车上，我回去发现没电，气得不行。”</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="section">
+                <h2>四、研究发现与设计建议</h2>
+                <div class="analysis-box">
+                    <h3>主要研究发现 (Key Findings)</h3>
+                    <div class="finding">
+                        <span class="response-num">发现 1：</span> 高峰期刚需凸显，信息焦虑是主要矛盾。
+                        超过四分之三的用户（77%）在 21-23 点充电，同时 85%的用户表示“实时空桩+预约”对他们“非常大”的帮助（Q8）。
+                    </div>
+                    <div class="finding">
+                        <span class="response-num">发现 2：</span> 用户具有中度付费意愿和极强信用共识。
+                        85%的用户愿意为“预约保留 15 分钟”付费 0.5 元或 1 元（Q9），显示出对确定性服务的价值认可。
+                        同时，92%的用户“支持”对恶意拔插头行为进行扣分惩戒（Q11），为信用体系的建立提供了坚实的群众基础。
+                    </div>
+                    <div class="finding">
+                        <span class="response-num">发现 3：</span> 基础设施严重不足与维护缺位。
+                        多数用户对现有充电桩数量满意度仅为一般。开放题 Q15 总结显示，
+                        除“找不到位”外，“桩坏/接触不良”是另一主要痛苦来源，亟需报修和状态反馈功能。
+                    </div>
+                    <div class="finding">
+                        <span class="response-num">发现 4：</span> 私桩共享潜力有待开发，但顾虑重重。
+                        虽然多数用户愿意为规范管理而实名制（77%，Q12），但对“共享私桩”模式的信任度偏低
+                        （46%不信任，Q10），主要集中在安全和责任划分上，平台必须提供完善的保险和仲裁机制。
+                    </div>
+                </div>
+
+                <h3>设计建议 </h3>
+                <ol style="padding-left: 40px;">
+                    <li>【核心功能】实时地图与智能预约：
+                        <ul style="list-style-type: circle; padding-left: 20px;">
+                            <li>地图可视化： 首页必须是地图，实时显示桩位状态、电摩/自行车的兼容性。</li>
+                            <li>预约机制： 启用付费预约（建议定价 0.5 元），提供 15 分钟保留时间，
+                                确保高峰期用户的时间价值。</li>
+                        </ul>
+                    </li>
+                    <li>【规则保障】强信用体系建设：
+                        <ul style="list-style-type: circle; padding-left: 20px;">
+                            <li>信用惩戒： 对恶意拔插头、预约超时、占位不充电等行为，
+                                设立明确的扣分和等级限制，并公开惩戒规则。</li>
+                            <li>实名认证： 绑定校园卡，使用户行为可追溯，保障信用体系的严肃性。</li>
+                        </ul>
+                    </li>
+                    <li>【体验优化】设备反馈与安全提醒：
+                        <ul style="list-style-type: circle; padding-left: 20px;">
+                            <li>自动提醒： 增加充电异常（如断电/被拔）和充满电的实时通知功能。</li>
+                            <li>报修系统： 设置明显的故障报修入口，用户可以上传图片和描述，
+                                平台需在地图上标记[待维修]状态。</li>
+                        </ul>
+                    </li>
+                    <li>【创新模式】谨慎且安全地推广共享：
+                        <ul style="list-style-type: circle; padding-left: 20px;">
+                            <li>安全保障： 私桩共享必须由平台提供保险，并确保设备安全达标（例如使用认证物联网插座）。</li>
+                            <li>评价机制： 建立用户对私桩的评分体系，淘汰低质量共享资源。</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 人机交互实验小组.</p>
+        </footer>
+    </div>
+</body>
+</html>
